@@ -15,23 +15,23 @@ import javax.persistence.Table;
 public class Usuario {
 	
 	@Id
-	private Long codigo;
+	private Long id;
 	
 	private String nome;
 	private String email;
 	private String senha;
 	
 	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "usuario_permissao", joinColumns = @JoinColumn(name = "codigo_usuario"),
-				inverseJoinColumns = @JoinColumn(name = "codigo_permissao"))
+	@JoinTable(name = "usuario_permissao", joinColumns = @JoinColumn(name = "id_usuario"),
+				inverseJoinColumns = @JoinColumn(name = "id_permissao"))
 	private List<Permissao> permissoes;
 
 	public Long getCodigo() {
-		return codigo;
+		return id;
 	}
 
 	public void setCodigo(Long codigo) {
-		this.codigo = codigo;
+		this.id = codigo;
 	}
 
 	public String getNome() {
@@ -70,7 +70,7 @@ public class Usuario {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((codigo == null) ? 0 : codigo.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
 	}
 
@@ -83,10 +83,10 @@ public class Usuario {
 		if (getClass() != obj.getClass())
 			return false;
 		Usuario other = (Usuario) obj;
-		if (codigo == null) {
-			if (other.codigo != null)
+		if (id == null) {
+			if (other.id != null)
 				return false;
-		} else if (!codigo.equals(other.codigo))
+		} else if (!id.equals(other.id))
 			return false;
 		return true;
 	}

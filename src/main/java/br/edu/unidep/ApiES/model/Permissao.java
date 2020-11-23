@@ -9,21 +9,27 @@ import javax.persistence.Table;
 public class Permissao {
 	
 	@Id
-	private Long codigo;
+	private Long id;
 	
 	private String descricao;
 
-	public Long getCodigo() {
-		return codigo;
+	
+	public Long getId() {
+		return id;
 	}
 
-	public void setCodigo(Long codigo) {
-		this.codigo = codigo;
+
+	public void setId(Long id) {
+		this.id = id;
 	}
+
+
 
 	public String getDescricao() {
 		return descricao;
 	}
+	
+	
 
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
@@ -33,7 +39,7 @@ public class Permissao {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((codigo == null) ? 0 : codigo.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
 	}
 
@@ -46,10 +52,10 @@ public class Permissao {
 		if (getClass() != obj.getClass())
 			return false;
 		Permissao other = (Permissao) obj;
-		if (codigo == null) {
-			if (other.codigo != null)
+		if (id == null) {
+			if (other.id != null)
 				return false;
-		} else if (!codigo.equals(other.codigo))
+		} else if (!id.equals(other.id))
 			return false;
 		return true;
 	}

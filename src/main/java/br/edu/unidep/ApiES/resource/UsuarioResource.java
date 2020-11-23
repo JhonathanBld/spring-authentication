@@ -1,5 +1,7 @@
 package br.edu.unidep.ApiES.resource;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,10 +23,10 @@ public class UsuarioResource {
 	@GetMapping("/{email:.+}")
 	public ResponseEntity<Usuario> buscarPeloEmail(@PathVariable String email) {
 		
-		Usuario usuario = repositorio.findByEmail(email);
+		Optional<Usuario> usuario = repositorio.findByEmail(email);
 		
 		if ( usuario != null) { 
-			return ResponseEntity.ok(usuario);
+			return ResponseEntity.ok(usuario.get());
 		} 
 		
 		return ResponseEntity.notFound().build();

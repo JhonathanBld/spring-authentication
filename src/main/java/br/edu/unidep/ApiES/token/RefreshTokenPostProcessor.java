@@ -1,7 +1,6 @@
 package br.edu.unidep.ApiES.token;
 
 import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -18,35 +17,32 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
 @ControllerAdvice
-public class RefreshTokenProcessor implements ResponseBodyAdvice<OAuth2AccessToken> {
+public class RefreshTokenPostProcessor implements ResponseBodyAdvice<OAuth2AccessToken> {
 
 	@Override
 	public boolean supports(MethodParameter returnType, Class<? extends HttpMessageConverter<?>> converterType) {
-		return returnType.getMethod().getName().equals("postAcessToken");
+		return returnType.getMethod().getName().equals("postAccessToken");
 	}
 
 	@Override
 	public OAuth2AccessToken beforeBodyWrite(OAuth2AccessToken body, MethodParameter returnType,
 			MediaType selectedContentType, Class<? extends HttpMessageConverter<?>> selectedConverterType,
 			ServerHttpRequest request, ServerHttpResponse response) {
-
+		
 		HttpServletRequest req = ((ServletServerHttpRequest) request).getServletRequest();
 		HttpServletResponse res = ((ServletServerHttpResponse) response).getServletResponse();
-
+		
 		DefaultOAuth2AccessToken token = (DefaultOAuth2AccessToken) body;
-
 		String refreshToken = body.getRefreshToken().getValue();
-
 		adicionarRefreshTokenCookie(refreshToken, req, res);
-
-		removerRefreshToken(token);
-
+		removerRefreshTokenBody(token);
+		
 		return body;
 	}
 
-	private void removerRefreshToken(DefaultOAuth2AccessToken token) {
+	private void removerRefreshTokenBody(DefaultOAuth2AccessToken token) {
 		token.setRefreshToken(null);
-
+		
 	}
 
 	private void adicionarRefreshTokenCookie(String refreshToken, HttpServletRequest req, HttpServletResponse res) {
@@ -54,9 +50,8 @@ public class RefreshTokenProcessor implements ResponseBodyAdvice<OAuth2AccessTok
 		refreshTokenCookie.setHttpOnly(true);
 		refreshTokenCookie.setSecure(false);
 		refreshTokenCookie.setPath(req.getContextPath() + "/oauth/token");
-		refreshTokenCookie.setMaxAge(16000);
+		refreshTokenCookie.setMaxAge(1656565);
 		res.addCookie(refreshTokenCookie);
-
 	}
 
 }
